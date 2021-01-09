@@ -1,0 +1,8 @@
+token 12345 
+start
+start_message Hello, thanks for starting me 
+make_button  ""321321"" ""dasasddasdsa""
+make_button  ""312123"" ""dsadasdsa""
+text_response ""876876"" ""lkjhkhkjhjk""
+text_response ""564456456"" ""jhjhgjghjgh""
+end

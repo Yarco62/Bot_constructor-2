@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        let index = 0;
+        function add(){
+            index += 1;
+            var h3Elem = document.getElementById("body_construct");
+            var elem = document.createElement("div");
+            elem.id = 'block_msg' + index;
+            let id = 'block_msg' + index;
+            elem.innerHTML = '<br><div id="'+id+'">Message '+index+'</div><input type="text" id="request'+id+'" placeholder="message" value = ""><br><input type="text" \
+                             id="response'+id+'" placeholder="answer" value = ""><button id="delete" onclick="document.getElementById(\''+id+'\').remove(); index -= 1;">Удалить</button>';
+            h3Elem.insertAdjacentElement("afterBegin", elem);
+        }
+
+    </script>
+
+    <script>
+        index_btn = 0;
+        function add_button(){
+            if (index_btn < 2) {
+            index_btn += 1;
+            var h3Elem = document.getElementById("body_construct");
+            var elem = document.createElement("div");
+            elem.id = 'block_btn' + index_btn;
+            let id = 'block_btn' + index_btn;
+            elem.innerHTML = '<br><div id="'+id+'">Button '+index_btn+'</div><input type="text" id="request'+id+'" placeholder="name" value = ""><br><input type="text" \
+                             id="response'+id+'" placeholder="message" value = ""><button id="delete" onclick="document.getElementById(\''+id+'\').remove(); index_btn -= 1;">Удалить</button>';
+            h3Elem.insertAdjacentElement("afterBegin", elem);
+            }
+            else {
+            alert("You can't add more than 2 buttons");
+
+            }
+        }
+
+    </script>
+
+    <script>
+<!--        function func() {-->
+<!--            $.ajax({-->
+<!--                type: "POST",-->
+<!--                url: "/",-->
+<!--                data: $('form').serialize(),-->
+<!--                type: 'POST',-->
+<!--                success: function(response) {-->
+<!--                    var data = response-->
+<!--                    $('#out').html(data)-->
+<!--                    console.log(response);-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.log(error);-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+    </script>
+
+    <script>
+        function reg(){
+            let i;
+
+
+            let res_m = [];
+            let req_m = [];
+            for (i = 1; i < index + 1; i++){
+                res_m[i-1] = '' + document.getElementById('requestblock_msg' + i).value + '';
+                req_m[i-1] = '' + document.getElementById('responseblock_msg' + i).value + '';
+            }
+
+            let res_b = [];
+            let req_b = [];
+            for (i = 1; i < index_btn + 1; i++){
+                res_b[i-1] = '' + document.getElementById('requestblock_btn' + i).value + '';
+                req_b[i-1] = '' + document.getElementById('responseblock_btn' + i).value + '';
+            }
+
+            let sum = {
+                "res_msg" : res_m,
+                "req_msg" : req_m,
+                "res_btn" : res_b,
+                "req_btn" : req_b
+            };
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/post');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var JSON_received = JSON.parse(xhr.responseText);
+                    //handle received JSON here
+                } else {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send(JSON.stringify(sum));
+        }
+    </script>
+
+</head>
+<body>
+    <button onclick="add()">Создать новое сообщение</button>
+    <button onclick="add_button()">Создать новую кнопку</button>
+    <br>
+        <div id="body_construct">
+            <br>
+            <input id="submit" type="submit" value="Create bot" onclick="reg()">
+        </div>
+</body>
+</html>
